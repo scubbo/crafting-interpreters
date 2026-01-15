@@ -1,0 +1,34 @@
+"""
+Example test cases demonstrating the test harness.
+"""
+
+from pathlib import Path
+from run_tests import TestCase, ExecutionResult
+
+LOX_FILES = Path(__file__).parent / "lox_files"
+
+
+def test_hello_world(result: ExecutionResult):
+    assert result.exit_code == 0, f"Expected exit code 0, got {result.exit_code}"
+    assert "hello world" in result.stdout, f"Expected 'hello world' in output, got: {result.stdout}"
+
+
+def test_arithmetic(result: ExecutionResult):
+    assert result.exit_code == 0, f"Expected exit code 0, got {result.exit_code}"
+    assert "3" in result.stdout, "Expected 3 (1+2) in output"
+    assert "7" in result.stdout, "Expected 7 (10-3) in output"
+    assert "6" in result.stdout, "Expected 6 (2*3) in output"
+
+
+TESTS = [
+    TestCase(
+        name="hello world",
+        lox_file=LOX_FILES / "hello.lox",
+        assertions=test_hello_world
+    ),
+    TestCase(
+        name="arithmetic operations",
+        lox_file=LOX_FILES / "arithmetic.lox",
+        assertions=test_arithmetic
+    ),
+]

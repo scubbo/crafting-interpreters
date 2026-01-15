@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd tests
+python3 run_tests.py
