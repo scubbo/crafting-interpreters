@@ -19,6 +19,10 @@ def test_arithmetic(result: ExecutionResult):
     assert "7" in result.stdout, "Expected 7 (10-3) in output"
     assert "6" in result.stdout, "Expected 6 (2*3) in output"
 
+def test_variable_declaration(result: ExecutionResult):
+    assert result.exit_code == 0, f"Expected exit code 0, got {result.exit_code}"
+    assert result.stdout.strip() == "4", f"Expected output to be `4`, was {result.stdout}"
+
 
 TESTS = [
     TestCase(
@@ -31,4 +35,9 @@ TESTS = [
         lox_file=LOX_FILES / "arithmetic.lox",
         assertions=test_arithmetic
     ),
+    TestCase(
+        name="variable declaration",
+        lox_file=LOX_FILES / "variable_declaration.lox",
+        assertions=test_variable_declaration
+    )
 ]
