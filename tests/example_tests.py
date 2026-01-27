@@ -4,6 +4,7 @@ Example test cases demonstrating the test harness.
 
 from pathlib import Path
 from run_tests import TestCase, ExecutionResult
+from typing import Callable
 
 LOX_FILES = Path(__file__).parent / "lox_files"
 
@@ -36,10 +37,24 @@ global b
 global c'''
     assert output == expected, f"Expected {expected} but got {output}"
 
+def build_basic_assertion(expected: str) -> Callable[[ExecutionResult], None]:
+    def built(result: ExecutionResult):
+        output = result.stdout.strip()
+        assert output == expected, f"Expected {expected} but got {output}"
+    return built
+
+test_branching_control_flow = build_basic_assertion("hello world!")
+
 def parse_test_case(file_path: Path) -> TestCase:
     file_name = file_path.name
     with file_path.open() as r:
-        name = r.readlines()[0].replace('// Name: ', '')
+        first_line = r.readlines()[0]
+
+    name_prefix = "// Name: "
+    if first_line.startswith(name_prefix):
+        name = first_line.replace(name_prefix, '')
+    else:
+        name = file_name.replace('.lox', '').replace('_', ' ')
     return TestCase(
         name=name,
         lox_file=file_path,
