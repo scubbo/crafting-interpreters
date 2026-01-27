@@ -23,6 +23,18 @@ def test_variable_declaration(result: ExecutionResult):
     assert result.exit_code == 0, f"Expected exit code 0, got {result.exit_code}"
     assert result.stdout.strip() == "4", f"Expected output to be `4`, was {result.stdout}"
 
+def test_variables_and_scope(result: ExecutionResult):
+    output = result.stdout.strip()
+    expected = '''inner a
+outer b
+global c
+outer a
+outer b
+global c
+global a
+global b
+global c'''
+    assert output == expected, f"Expected {expected} but got {output}"
 
 TESTS = [
     TestCase(
@@ -39,5 +51,10 @@ TESTS = [
         name="variable declaration",
         lox_file=LOX_FILES / "variable_declaration.lox",
         assertions=test_variable_declaration
+    ),
+    TestCase(
+        name="variables and scope",
+        lox_file=LOX_FILES / "variables_and_scope.lox",
+        assertions=test_variables_and_scope
     )
 ]
