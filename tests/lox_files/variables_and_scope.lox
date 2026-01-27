@@ -1,3 +1,4 @@
+// Name: variables and scope
 var a = "global a";
 var b = "global b";
 var c = "global c";

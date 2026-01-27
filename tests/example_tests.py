@@ -8,7 +8,7 @@ from run_tests import TestCase, ExecutionResult
 LOX_FILES = Path(__file__).parent / "lox_files"
 
 
-def test_hello_world(result: ExecutionResult):
+def test_hello(result: ExecutionResult):
     assert result.exit_code == 0, f"Expected exit code 0, got {result.exit_code}"
     assert "hello world" in result.stdout, f"Expected 'hello world' in output, got: {result.stdout}"
 
@@ -36,25 +36,14 @@ global b
 global c'''
     assert output == expected, f"Expected {expected} but got {output}"
 
-TESTS = [
-    TestCase(
-        name="hello world",
-        lox_file=LOX_FILES / "hello.lox",
-        assertions=test_hello_world
-    ),
-    TestCase(
-        name="arithmetic operations",
-        lox_file=LOX_FILES / "arithmetic.lox",
-        assertions=test_arithmetic
-    ),
-    TestCase(
-        name="variable declaration",
-        lox_file=LOX_FILES / "variable_declaration.lox",
-        assertions=test_variable_declaration
-    ),
-    TestCase(
-        name="variables and scope",
-        lox_file=LOX_FILES / "variables_and_scope.lox",
-        assertions=test_variables_and_scope
+def parse_test_case(file_path: Path) -> TestCase:
+    file_name = file_path.name
+    with file_path.open() as r:
+        name = r.readlines()[0].replace('// Name: ', '')
+    return TestCase(
+        name=name,
+        lox_file=file_path,
+        assertions=globals()[f'test_{file_name.replace(".lox", "")}']
     )
-]
+
+TESTS = map(parse_test_case, Path(LOX_FILES).iterdir())
