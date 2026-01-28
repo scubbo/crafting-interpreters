@@ -1,0 +1,22 @@
+var a = 0;
+var temp;
+
+for (var b = 1; a < 35; b = temp + b) {
+  print a;
+  temp = a;
+  a = b;
+}
+
+// Test for-loop with an initializer statement, not variable declaration
+for (a = 0; a < 3; a = a + 1) {
+  print a;
+}
+
+// Test without increment
+for (a=0; a<5;) {
+  print a;
+  a = a + 1;
+}
+
+// Cannot easily test for "without condition" because we don't support `break`
+// in the basic language.
