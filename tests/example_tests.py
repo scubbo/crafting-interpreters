@@ -44,6 +44,7 @@ def build_basic_assertion(expected: str) -> Callable[[ExecutionResult], None]:
     return built
 
 test_branching_control_flow = build_basic_assertion("hello world!")
+test_while_loops = build_basic_assertion("0\n1\n2\n3\n4")
 
 def parse_test_case(file_path: Path) -> TestCase:
     file_name = file_path.name
