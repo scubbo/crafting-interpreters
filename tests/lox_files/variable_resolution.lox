@@ -1,0 +1,11 @@
+var a = "global";
+
+fun sayIt() {
+  print a;
+}
+
+{
+  sayIt();
+  var a = "local";
+  sayIt();
+}
