@@ -1,0 +1,27 @@
+class Foo {
+  speak() {
+    print "hello";
+  }
+
+  greet() {
+    print "hello, " + this.name;
+  }
+}
+Foo().speak();
+
+var foo = Foo();
+foo.name = "Jack";
+foo.greet();
+
+class InitedFoo {
+  init(name) {
+    this.name = name;
+  }
+
+  greet() {
+    print "hello, " + this.name;
+  }
+}
+
+var bar = InitedFoo("JACK");
+bar.greet();
